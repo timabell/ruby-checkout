@@ -11,3 +11,7 @@ To start this app I ran:
 	gem install cucumber
 
 The spec will be converted into cucumber tests so we can do BDD.
+
+To run the test suit run the following from the root of the application:
+
+	cucumber
