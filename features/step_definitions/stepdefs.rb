@@ -7,7 +7,7 @@ end
 
 When(/^product (\d+) is scanned$/) do |arg1|
 	@checkout = Checkout.new()
-	co.scan(@product)
+	@checkout.scan(@product)
 end
 
 Then(/^The total should be £(\d+\.\d+)$/) do |price|
