@@ -3,5 +3,6 @@ Feature: An online marketplace with price totalling
 	The total price should be displayed after items scanned
 
 	Scenario: Single item scanned
-		Given product 001 price £9.25 is scanned
+		Given product 001 has price £9.25
+		When product 001 is scanned
 		Then The total should be £9.25
