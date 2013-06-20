@@ -12,5 +12,5 @@ When(/^product "(.*?)" is scanned$/) do |arg1|
 end
 
 Then(/^The total should be £(\d+\.\d+)$/) do |price|
-	assert_equal(@checkout.price, price)
+	expect(@checkout.price).to eq(price)
 end
