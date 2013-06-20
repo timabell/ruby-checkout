@@ -2,9 +2,10 @@
 # TODO: capture the currency symbol for L10n
 
 Given(/^these products are available:$/) do |table|
-   # table is a Cucumber::Ast::Table
 	@checkout = Checkout.new()
-	#TODO; add examples
+	@catalogue = Catalogue.new()
+	# table is a Cucumber::Ast::Table
+	@catalogue << Product.new("666", 89.91)
 end
 
 When(/^product "(.*?)" is scanned$/) do |arg1|
