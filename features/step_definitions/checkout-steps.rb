@@ -1,12 +1,13 @@
 # TODO: Rename this file to something more meaningful when I know what that might be
 # TODO: capture the currency symbol for L10n
 
-Given(/^product (\d+) has price £(\d+\.\d+)$/) do |product_code, price|
-	@product = Product.new(product_code, price)
+Given(/^these products are available:$/) do |table|
+   # table is a Cucumber::Ast::Table
+	@checkout = Checkout.new()
+	#TODO; add examples
 end
 
-When(/^product (\d+) is scanned$/) do |arg1|
-	@checkout = Checkout.new()
+When(/^product "(.*?)" is scanned$/) do |arg1|
 	@checkout.scan(@product)
 end
 

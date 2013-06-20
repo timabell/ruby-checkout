@@ -1,8 +1,38 @@
 Feature: An online marketplace with price totalling
-	In order to avoid uncertainty about total costs
-	The total price should be displayed after items scanned
 
-	Scenario: Single item scanned
-		Given product 001 has price £9.25
-		When product 001 is scanned
+	Our marketing team want to offer promotions as an incentive for our customers to purchase these items.
+
+	If you spend over £60, then you get 10% of your purchase
+	If you buy 2 or more lavender hearts then the price drops to £8.50.
+
+	Our check-out can scan items in any order, and because our promotions will change, it needs to be flexible regarding our promotional rules.
+
+	Background:
+		Given these products are available:
+		| Product Code  | Name                   | Price  |
+		| 001           | Lavender heart         | £9.25  |
+		| 002           | Personalised cufflinks | £45.00 |
+		| 003           | Kids T-shirt           | £19.95 |
+
+	Scenario:
+		When product "001" is scanned
 		Then The total should be £9.25
+
+	Scenario:
+		When product "001" is scanned
+		And product "002" is scanned
+		And product "003" is scanned
+		Then The total should be £66.78
+
+	Scenario:
+		When product "001" is scanned
+		And product "002" is scanned
+		And product "001" is scanned
+		Then The total should be £36.95
+
+	Scenario:
+		When product "001" is scanned
+		And product "002" is scanned
+		And product "001" is scanned
+		And product "003" is scanned
+		Then The total should be £73.76
