@@ -16,7 +16,7 @@ class Checkout
 		end
 		@basket << product
 		@total += product.price end
-		puts format("Scanned '%s', price £%.2f. Subtotal £%.2f", product.code, product.price, @total)
+		puts format("Scanned '%s', price £%.2f.", product.code, product.price)
 		puts "New basket: ", @basket
 	end
 
