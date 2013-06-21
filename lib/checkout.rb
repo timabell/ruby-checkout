@@ -10,7 +10,7 @@ class Checkout
 	# Inject a catalogue into the checkout. This approach would need
 	# reviewing for a real app.
 	# The catalogue is a hashmap of product_code => product
-	def initialize(catalogue)
+	def initialize(catalogue, promotional_rules)
 		@catalogue = catalogue
 		@total = 0
 	end

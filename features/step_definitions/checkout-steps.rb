@@ -20,7 +20,10 @@ def product_from(row)
 end
 
 Given(/^these products are available:$/) do |catalogue|
-	@checkout = Checkout.new(catalogue)
+	promotional_rules = do |basket|
+
+	end
+	@checkout = Checkout.new(catalogue, promotional_rules)
 	# table is a Cucumber::Ast::Table
 end
 
