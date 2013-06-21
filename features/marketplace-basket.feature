@@ -14,23 +14,27 @@ Feature: An online marketplace with price totalling
 		| 002           | Personalised cufflinks | £45.00 |
 		| 003           | Kids T-shirt           | £19.95 |
 
-	Scenario:
+	Scenario: Single item
 		When product "001" is scanned
 		Then The total should be £9.25
 
-	Scenario:
+	Scenario: Non-existent product
+		When product "666" is scanned
+		Then The total should be £0.00
+
+	Scenario: 10% off because over £60 (£74.20 - £7.42 = £66.78)
 		When product "001" is scanned
 		And product "002" is scanned
 		And product "003" is scanned
 		Then The total should be £66.78
 
-	Scenario:
+	Scenario: Bulk discount, 75p off "001"
 		When product "001" is scanned
 		And product "002" is scanned
 		And product "001" is scanned
 		Then The total should be £36.95
 
-	Scenario:
+	Scenario: Bulk discount + 10% off
 		When product "001" is scanned
 		And product "002" is scanned
 		And product "001" is scanned
