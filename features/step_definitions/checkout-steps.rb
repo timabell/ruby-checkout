@@ -1,17 +1,33 @@
 # TODO: Rename this file to something more meaningful when I know what that might be
 # TODO: capture the currency symbol for L10n
 
-Given(/^these products are available:$/) do |table|
-	@checkout = Checkout.new()
-	@catalogue = Catalogue.new()
-	# table is a Cucumber::Ast::Table
-	@catalogue << Product.new("666", 89.91)
+require 'bigdecimal' # avoid floats for currency as tends to cause rounding errors
+
+# Transform a table of products into a catalogue hashmap of product objects
+Transform /^table:Product Code,Name,Price$/ do |table|
+	# Plain english table headings to ruby symbol style
+	table.map_headers! {|header| header.downcase.gsub(/\s+/,"_").to_sym }
+	# Convert table to hashmap of products keyed on product code
+	Hash[table.hashes.map do |row|
+		[ row[:product_code], product_from(row) ]
+	end
+	]
 end
 
-When(/^product "(.*?)" is scanned$/) do |arg1|
-	@checkout.scan(@product)
+def product_from(row)
+	# Extract the decimal from the price column and create a product object
+	Product.new( row[:product_code], BigDecimal(row[:price].delete("£")) )
+end
+
+Given(/^these products are available:$/) do |catalogue|
+	@checkout = Checkout.new(catalogue)
+	# table is a Cucumber::Ast::Table
+end
+
+When(/^product "(.*?)" is scanned$/) do |product|
+	@checkout.scan(product)
 end
 
 Then(/^The total should be £(\d+\.\d+)$/) do |price|
-	expect(@checkout.price).to eq(price)
+	expect(@checkout.total).to eq(BigDecimal(price))
 end

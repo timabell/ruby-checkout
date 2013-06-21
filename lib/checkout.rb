@@ -1,5 +1,16 @@
 class Checkout
-	attr_reader :price
+	attr_reader :total
+
 	def scan(product_code)
+		product = @catalogue[product_code]
+		if product then @total += product.price end
+	end
+
+	# Inject a catalogue into the checkout. This approach would need
+	# reviewing for a real app.
+	# The catalogue is a hashmap of product_code => product
+	def initialize(catalogue)
+		@catalogue = catalogue
+		@total = 0
 	end
 end
