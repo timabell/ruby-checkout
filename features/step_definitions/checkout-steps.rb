@@ -20,10 +20,7 @@ def product_from(row)
 end
 
 Given(/^these products are available:$/) do |catalogue|
-	promotional_rules = do |basket|
-
-	end
-	@checkout = Checkout.new(catalogue, promotional_rules)
+	@checkout = Checkout.new(catalogue)
 	# table is a Cucumber::Ast::Table
 end
 
@@ -32,5 +29,11 @@ When(/^product "(.*?)" is scanned$/) do |product|
 end
 
 Then(/^The total should be £(\d+\.\d+)$/) do |price|
+	actual_total, basket = @checkout.total do |basket|
+		puts "promotional rules applied"
+	end
+
+	puts basket
+
 	expect(@checkout.total).to eq(BigDecimal(price))
 end
