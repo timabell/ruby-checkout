@@ -24,16 +24,18 @@ Given(/^these products are available:$/) do |catalogue|
 	# table is a Cucumber::Ast::Table
 end
 
-When(/^product "(.*?)" is scanned$/) do |product|
-	@checkout.scan(product)
+When(/^product "(.*?)" is scanned$/) do |product_code|
+	@checkout.scan(product_code)
 end
 
 Then(/^The total should be £(\d+\.\d+)$/) do |price|
-	actual_total, basket = @checkout.total do |basket|
+	puts "checking total"
+	actual_total, basket = @checkout.total do |scanned|
 		puts "promotional rules applied"
+		puts "discounting ", scanned
 	end
 
 	puts basket
 
-	expect(@checkout.total).to eq(BigDecimal(price))
+	expect(actual_total).to eq(BigDecimal(price))
 end
