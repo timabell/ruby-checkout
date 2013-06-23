@@ -34,8 +34,6 @@ Then(/^The total should be £(\d+\.\d+)$/) do |expected_total|
 		puts "discounting ", scanned
 	end
 
-	puts basket
-
 	expect(actual_total).to eq(BigDecimal(expected_total))
 end
 
