@@ -28,16 +28,15 @@ When(/^product "(.*?)" is scanned$/) do |product_code|
 	@checkout.scan(product_code)
 end
 
-Then(/^The total should be £(\d+\.\d+)$/) do |price|
-	puts "checking total"
-	actual_total, basket = @checkout.total do |scanned|
+Then(/^The total should be £(\d+\.\d+)$/) do |expected_total|
+	actual_total = @checkout.total do |scanned|
 		puts "promotional rules applied"
 		puts "discounting ", scanned
 	end
 
 	puts basket
 
-	expect(actual_total).to eq(BigDecimal(price))
+	expect(actual_total).to eq(BigDecimal(expected_total))
 end
 
 Given(/^Scanning product "(.*?)" scanned should cause an error$/) do |arg1|
