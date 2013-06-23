@@ -19,8 +19,7 @@ Feature: An online marketplace with price totalling
 		Then The total should be £9.25
 
 	Scenario: Non-existent product
-		When product "666" is scanned
-		Then The total should be £0.00
+		* Scanning product "666" scanned should cause an error
 
 	Scenario: 10% off because over £60 (£74.20 - £7.42 = £66.78)
 		When product "001" is scanned

@@ -39,3 +39,9 @@ Then(/^The total should be £(\d+\.\d+)$/) do |price|
 
 	expect(actual_total).to eq(BigDecimal(price))
 end
+
+Given(/^Scanning product "(.*?)" scanned should cause an error$/) do |arg1|
+	lambda do
+		@checkout.scan(product_code)
+	end.should raise_error()
+end
