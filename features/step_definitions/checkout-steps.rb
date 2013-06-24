@@ -25,7 +25,13 @@ Given(/^these products are available:$/) do |catalogue|
 		calculated_basket = basket.clone
 		hearts = basket.count { |item| item.code == "001" }
 		if hearts > 1
-			calculated_basket << Product.new( "---", "heart multi-buy discount", BigDecimal(hearts * -0.75, 2) )
+			calculated_basket << Product.new( "---", "heart multi-buy discount", BigDecimal(hearts * -0.75, 1) )
+		end
+		total = calculated_basket.reduce(BigDecimal(0)) {
+			|sum, product| sum + product.price
+		}
+		if total > 60
+			calculated_basket << Product.new( "---", "10% off", BigDecimal(total * -0.1, 1) )
 		end
 		# return a modified basket with a discount
 		calculated_basket
