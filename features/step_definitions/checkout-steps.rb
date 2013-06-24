@@ -22,6 +22,10 @@ end
 
 Given(/^these products are available:$/) do |catalogue|
 	promotions = lambda { |basket|
+		hearts = basket.count { |item| item.code == "001" }
+		if hearts > 1
+			basket << Product.new( "---", "heart multi-buy discount", BigDecimal(hearts * -0.75, 2) )
+		end
 		# return a modified basket with a discount
 		basket #<< Product.new( "---", "discount", BigDecimal("-2.22") )
 	}
