@@ -30,7 +30,7 @@ Feature: An online marketplace with price totalling
 
 	Scenario: Bulk discount, 75p off "001"
 		When product "001" is scanned
-		And product "002" is scanned
+		And product "003" is scanned
 		And product "001" is scanned
 		Then The total should be £36.95
 
