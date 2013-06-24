@@ -18,7 +18,7 @@ class Checkout
 		@basket << product
 		@calculated_basket = @promotional_rules.call(@basket)
 		calculate_total
-		debug_items
+		# debug_items
 	end
 
 	private
