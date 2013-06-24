@@ -23,7 +23,7 @@ end
 Given(/^these products are available:$/) do |catalogue|
 	promotions = lambda { |basket|
 		# return a modified basket with a discount
-		basket << Product.new( "---", "discount", BigDecimal("-2.22") )
+		basket #<< Product.new( "---", "discount", BigDecimal("-2.22") )
 	}
 
 	@checkout = Checkout.new(catalogue, &promotions)
