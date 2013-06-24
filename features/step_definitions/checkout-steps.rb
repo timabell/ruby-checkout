@@ -5,6 +5,7 @@ require 'bigdecimal' # avoid floats for currency as tends to cause rounding erro
 
 # Transform a table of products into a catalogue hashmap of product objects
 Transform /^table:Product Code,Name,Price$/ do |table|
+	# table is a Cucumber::Ast::Table
 	# Plain english table headings to ruby symbol style
 	table.map_headers! {|header| header.downcase.gsub(/\s+/,"_").to_sym }
 	# Convert table to hashmap of products keyed on product code
@@ -16,12 +17,16 @@ end
 
 def product_from(row)
 	# Extract the decimal from the price column and create a product object
-	Product.new( row[:product_code], BigDecimal(row[:price].delete("£")) )
+	Product.new( row[:product_code], row[:name], BigDecimal(row[:price].delete("£")) )
 end
 
 Given(/^these products are available:$/) do |catalogue|
-	@checkout = Checkout.new(catalogue)
-	# table is a Cucumber::Ast::Table
+	promotions = lambda { |basket|
+		# return a modified basket with a discount
+		basket << Product.new( "---", "discount", BigDecimal("-2.22") )
+	}
+
+	@checkout = Checkout.new(catalogue, &promotions)
 end
 
 When(/^product "(.*?)" is scanned$/) do |product_code|
@@ -29,17 +34,16 @@ When(/^product "(.*?)" is scanned$/) do |product_code|
 end
 
 Then(/^The total should be £(\d+\.\d+)$/) do |expected_total|
-	actual_total = @checkout.total do |scanned|
-		puts "promotional rules applied"
-		puts "discounting ", scanned
-		scanned << Product.new( "---", BigDecimal("-2.22") )
-	end
-
-	expect(actual_total).to eq(BigDecimal(expected_total))
+	expect(@checkout.total).to eq(BigDecimal(expected_total))
 end
 
 Given(/^Scanning product "(.*?)" scanned should cause an error$/) do |arg1|
 	lambda do
 		@checkout.scan(product_code)
 	end.should raise_error()
+end
+
+Then(/^The basket should include product with code "(.*?)" and name "(.*?)"$/) do |code, name|
+	item = @checkout.basket.find {|item| item.code == code and item.name = name }
+	expect(item).to_not be_nil
 end

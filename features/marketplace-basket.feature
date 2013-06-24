@@ -16,8 +16,8 @@ Feature: An online marketplace with price totalling
 
 	Scenario: Single item
 		When product "001" is scanned
+		Then The basket should include product with code "001" and name "Lavender heart"
 		Then The total should be £9.25
-		And The basket should include product with code "001" and name "Lavender heart"
 
 	Scenario: Non-existent product
 		* Scanning product "666" scanned should cause an error
