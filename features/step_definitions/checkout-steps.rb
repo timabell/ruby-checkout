@@ -32,6 +32,7 @@ Then(/^The total should be £(\d+\.\d+)$/) do |expected_total|
 	actual_total = @checkout.total do |scanned|
 		puts "promotional rules applied"
 		puts "discounting ", scanned
+		scanned
 	end
 
 	expect(actual_total).to eq(BigDecimal(expected_total))
